@@ -373,7 +373,7 @@ if SheetMetalTools.isGuiLoaded():
             SheetMetalTools.taskConnectSpin(obj, self.form.unitBendAngle, "angle")
             SheetMetalTools.taskConnectCheck(obj, self.form.checkFlipDir, "invertbend")
             SheetMetalTools.taskConnectCheck(obj, self.form.checkUnbend, "unfold")
-            SheetMetalTools.taskConnectSelectionSingle(
+            SheetMetalTools.taskConnectSelection(
                 self.form.buttAttachedObjects, self.form.txtAttachedObjects, obj, "attachedObjects", ["Object"])
 
         def isAllowedAlterSelection(self):
