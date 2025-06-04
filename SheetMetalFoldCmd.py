@@ -33,6 +33,7 @@ smEpsilon = SheetMetalTools.smEpsilon
 BendOnLineDefaultVars = [("radius", "defaultRadius"), ("angle", "defaultFoldAngle")]
 
 def smFold(
+    fp,
     bendR=0.8,
     bendA=90.0,
     kfactor=1,
@@ -225,6 +226,7 @@ def smFold(
                     new_rotation = rotation.multiply(current_placement.Rotation)
                     cloned_obj.Placement = FreeCAD.Placement(new_position, new_rotation)
                     cloned_obj.Visibility = True
+                    fp.FoldedAttachedObjects.addObject(cloned_obj)
             # resultsolid = Part.makeCompound(solidlist)
             # resultsolid = BOPTools.JoinAPI.connect(solidlist)
             resultsolid = solidlist[0].multiFuse(solidlist[1:])
@@ -300,7 +302,18 @@ class SMFoldWall:
             fp.addProperty(
                 "App::PropertyLinkList", "attachedObjects", "Parameters", _tip_
             ).attachedObjects = []
+        doc = FreeCAD.ActiveDocument
+        if hasattr(fp, "FoldedAttachedObjects") and fp.FoldedAttachedObjects:
+            for obj in fp.FoldedAttachedObjects.Group:
+                fp.FoldedAttachedObjects.removeObject(obj)
+                doc.removeObject(obj.Name)
+        if not hasattr(fp, "FoldedAttachedObjects"):
+            fp.addProperty("App::PropertyLink", "FoldedAttachedObjects", "Base", "Group containing cloned objects")
+        if fp.FoldedAttachedObjects is None:
+            group = doc.addObject("App::DocumentObjectGroup", f"{fp.Name}_FoldedAttachedObjects")
+            fp.FoldedAttachedObjects = group
         s = smFold(
+            fp,
             bendR=fp.radius.Value,
             bendA=fp.angle.Value,
             flipped=fp.invert,
