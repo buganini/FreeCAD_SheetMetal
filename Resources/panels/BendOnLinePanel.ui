@@ -37,6 +37,13 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="txtAttachedObjects">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="buttBaseObject">
         <property name="text">
@@ -51,6 +58,16 @@
        <widget class="QPushButton" name="buttBendLine">
         <property name="text">
          <string>Bend Line</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="buttAttachedObjects">
+        <property name="text">
+         <string>Attached Objects</string>
         </property>
         <property name="checkable">
          <bool>true</bool>

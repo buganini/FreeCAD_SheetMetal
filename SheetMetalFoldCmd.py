@@ -43,6 +43,7 @@ def smFold(
     bendlinesketch=None,
     selFaceNames="",
     MainObject=None,
+    attachedObjects=None,
 ):
 
     import BOPTools.SplitFeatures, BOPTools.JoinFeatures
@@ -211,6 +212,19 @@ def smFold(
                 solidlist.append(bendsolid)
             solidlist.append(solid0)
             solidlist.append(solid1)
+            if attachedObjects:
+                doc = FreeCAD.ActiveDocument
+                for obj in attachedObjects:
+                    cloned_obj = doc.copyObject(obj)
+                    cloned_obj.Label = f"{obj.Label}_Folded"
+                    rotation = FreeCAD.Rotation(revAxisV, bendA)
+                    current_placement = cloned_obj.Placement
+                    relative_position = current_placement.Base - revAxisP
+                    rotated_position = rotation.multVec(relative_position)
+                    new_position = revAxisP + rotated_position
+                    new_rotation = rotation.multiply(current_placement.Rotation)
+                    cloned_obj.Placement = FreeCAD.Placement(new_position, new_rotation)
+                    cloned_obj.Visibility = True
             # resultsolid = Part.makeCompound(solidlist)
             # resultsolid = BOPTools.JoinAPI.connect(solidlist)
             resultsolid = solidlist[0].multiFuse(solidlist[1:])
@@ -218,6 +232,8 @@ def smFold(
         if bendlinesketch and bendA > 0.0:
             resultsolid = FoldShape
     SheetMetalTools.smHideObjects(MainObject, bendlinesketch)
+    if attachedObjects:
+        SheetMetalTools.smHideObjects(*attachedObjects)
     return resultsolid
 
 
@@ -259,6 +275,11 @@ class SMFoldWall:
         obj.addProperty(
             "App::PropertyEnumeration", "Position", "Parameters", _tip_
         ).Position = ["intersection of planes", "middle", "backward", "forward"]
+        _tip_ = FreeCAD.Qt.translate("App::Property", "Attached Objects")
+        obj.addProperty(
+            "App::PropertyLinkList", "attachedObjects", "Parameters", _tip_
+        ).attachedObjects = []
+
 
         SheetMetalTools.taskRestoreDefaults(obj, BendOnLineDefaultVars)
         obj.Proxy = self
@@ -274,6 +295,11 @@ class SMFoldWall:
             fp.addProperty(
                 "App::PropertyEnumeration", "Position", "Parameters", _tip_
             ).Position = ["intersection of planes", "middle", "backward", "forward"]
+        if not hasattr(fp, "attachedObjects"):
+            _tip_ = FreeCAD.Qt.translate("App::Property", "Attached Objects")
+            fp.addProperty(
+                "App::PropertyLinkList", "attachedObjects", "Parameters", _tip_
+            ).attachedObjects = []
         s = smFold(
             bendR=fp.radius.Value,
             bendA=fp.angle.Value,
@@ -285,6 +311,7 @@ class SMFoldWall:
             invertbend=fp.invertbend,
             selFaceNames=fp.baseObject[1],
             MainObject=fp.baseObject[0],
+            attachedObjects=fp.attachedObjects,
         )
         fp.Shape = s
 
@@ -333,6 +360,8 @@ if SheetMetalTools.isGuiLoaded():
             SheetMetalTools.taskConnectSpin(obj, self.form.unitBendAngle, "angle")
             SheetMetalTools.taskConnectCheck(obj, self.form.checkFlipDir, "invertbend")
             SheetMetalTools.taskConnectCheck(obj, self.form.checkUnbend, "unfold")
+            SheetMetalTools.taskConnectSelectionSingle(
+                self.form.buttAttachedObjects, self.form.txtAttachedObjects, obj, "attachedObjects", ["Object"])
 
         def isAllowedAlterSelection(self):
             return True
