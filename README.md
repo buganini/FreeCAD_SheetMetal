@@ -96,6 +96,28 @@ SheetMetal WB can be installed via the [Addon Manager](https://github.com/FreeCA
 * FreeCAD Forum announcement/discussion [thread](https://forum.freecadweb.org/viewtopic.php?f=3&t=60818) 
 
 #### Release notes:
+* V0.7.55 20 Sep 2025:  Remove some debug code from unfolder.  
+                      - Remove redundant translation commands by [@zokhasan][zokhasan].  
+* V0.7.54 17 Sep 2025:  Fix round relief bug.  
+                      - Add ".gitattributes" to fix line endings by [@zokhasan][zokhasan].  
+                      - Remove duplicate function by [@zokhasan][zokhasan].  
+* V0.7.53 13 Sep 2025:  Small patch to prevent old files from breaking.  
+* V0.7.52 09 Sep 2025:  Fix possible mismatch between outside and inside material.  
+* V0.7.51 06 Sep 2025:  Fix some more gaps and inner material cases.  
+                      - Fix bug when material spreadsheet is renamed  
+* V0.7.50 04 Sep 2025:  Fix issues with gaps and inner material.  
+                      - Fix typos by [@luzpaz][luzpaz].  
+                      - Refactoring SheetMetal code by [@zokhasan][zokhasan].  
+                      - BaseShape: hide setting instead disable by [@zokhasan][zokhasan].  
+                      - keep Windows LibPack 0.21.x users working by [@Syres916][Syres916].  
+                      - Fix enable params when on BaseShapeTaskPanel by [@zokhasan][zokhasan].  
+                      - Remove duplicate class SMLogger by [@zokhasan][zokhasan].  
+                      - Add RU localisation by [@zokhasan][zokhasan].  
+                      - Fix assign color for lines in UnfoldTaskPanel by [@zokhasan][zokhasan].  
+* V0.7.24 03 Jul 2025:  Add Icons to task panel's titles by [@zokhasan][zokhasan].  
+* V0.7.23 24 Jun 2025:  Fix problem with object transform.  
+                      - NetworkX compatibility fix by [@Syres916][Syres916].  
+                      - Separation of Name and Label for Unfold by [@GS90][GS90].  
 * V0.7.22 18 Mar 2025:  Detach unfolded object from Body.  
                       - Improve bezier conversion to arcs by [@alexneufeld][alexneufeld].  
 * V0.7.21 01 Mar 2025:  Add Task-Panel to Wrapped Cutout tool.  
@@ -126,7 +148,7 @@ SheetMetal WB can be installed via the [Addon Manager](https://github.com/FreeCA
                       - Update translations by [@hasecilu][hasecilu].  
                       - Fix python compatibility by [@Syres916][Syres916].  
                       - Extruded cutout fixes by [@sheetmetalman][sheetmetalman].  
-                      - Fix round relief apect ratio limitations.  
+                      - Fix round relief aspect ratio limitations.  
 * V0.6.00 03 Dec 2024:  Code refactoring, Remove duplication, Add GUI to most functions.  
 * V0.5.10 25 Nov 2024:  Extruded Cutout: add improvements and fixes by [@sheetmetalman][sheetmetalman].  
                       - Update translations from CrowdIn by [@hasecilu][hasecilu].  
@@ -301,6 +323,7 @@ SheetMetal WB can be installed via the [Addon Manager](https://github.com/FreeCA
 [robbeban]: https://github.com/robbeban
 [sheetmetalman]: https://github.com/sheetmetalman
 [GS90]: https://github.com/GS90
+[zokhasan]: https://github.com/zokhasan
 [topic82482]: https://forum.freecad.org/viewtopic.php?t=82482
 [30]: https://github.com/shaise/FreeCAD_SheetMetal/issues/30
 [33]: https://github.com/shaise/FreeCAD_SheetMetal/issues/33
@@ -314,3 +337,4 @@ SheetMetal WB can be installed via the [Addon Manager](https://github.com/FreeCA
 
 ## License
 GPLv3 (see [LICENSE](LICENSE))
+
