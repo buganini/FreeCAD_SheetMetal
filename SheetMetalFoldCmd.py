@@ -223,6 +223,7 @@ def smFold(
                     relative_position = current_placement.Base - revAxisP
                     rotated_position = rotation.multVec(relative_position)
                     new_position = revAxisP + rotated_position
+                    new_position.z -= bendR*2
                     new_rotation = rotation.multiply(current_placement.Rotation)
                     cloned_obj.Placement = FreeCAD.Placement(new_position, new_rotation)
                     cloned_obj.Visibility = True
